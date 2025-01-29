@@ -1,5 +1,5 @@
 pipeline{
-  agent any
+  agent none
   stages{
     stage('Checking if sheel commands are working or not'){
       docker { image 'ubuntu' }
