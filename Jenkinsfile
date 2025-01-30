@@ -7,7 +7,7 @@ pipeline{
       }
       steps{
         sh '''
-        git clone https://github.com/Kapil987/test_maven.git
+        git -version
         sh '''
       }
     }
