@@ -11,13 +11,5 @@ pipeline{
         sh '''
       }
     }
-    stage('Building the Code with Maven'){
-      agent{
-        docker {image 'maven:3.8.1-adoptopenjdk-11'}
-      }
-      steps{
-        sh 'mvn --version'
-      }
-    }
   }
 }
