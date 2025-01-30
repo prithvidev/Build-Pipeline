@@ -8,7 +8,18 @@ pipeline{
       steps{
         sh '''
         git -version
+        git clone https://github.com/Kapil987/test_maven.git
+        ls -lrt
         sh '''
+      }
+    }
+    stage('Maven'){
+      agent{
+        docker { image 'maven:3.8.5-openjd
+      }
+      steps{
+        sh 'mvn --version'
+        sh 'date'
       }
     }
   }
