@@ -21,7 +21,8 @@ pipeline{
        
         dir('Jenkins-Zero-To-Hero'){
           sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app/'
-          sh '[ -f "pom.xml" ] && mvn clean package || echo "pom.xml not found!"'
+          sh 'ls -lrt'
+          sh '[ -f "./pom.xml" ] && mvn clean package || echo "pom.xml not found!"'
         }
       }
   }
