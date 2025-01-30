@@ -18,12 +18,18 @@ pipeline{
       steps{
         sh 'mvn --version'
         sh 'date'
-        sh '''
+       
         dir('Jenkins-Zero-To-Hero'){
-        cd java-maven-sonar-argocd-helm-k8s/spring-boot-app/
-        mvn clean package
-        }
+        sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app/'
+        if (fileExists('pom.xml')) {
+          echo "pom.xml found! Running Maven build..."
+          sh 'mvn clean package'
+          }
+        else {
+          echo "pom.xml not found. Skipping build."
+          }
         }
       }
   }
+}
 }
