@@ -18,6 +18,12 @@ pipeline{
       steps{
         sh 'mvn --version'
         sh 'date'
+        dir('test_maven'){
+          sh '''
+          cd demo/demo
+          mvn clean install
+          sh '''
+        }
       }
     }
   }
