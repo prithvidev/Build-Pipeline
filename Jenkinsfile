@@ -20,7 +20,7 @@ pipeline{
         sh 'date'
        
         dir('Jenkins-Zero-To-Hero'){
-          sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app/'
+          sh 'cd ./java-maven-sonar-argocd-helm-k8s/spring-boot-app/'
           sh 'ls -lrt'
           sh '[ -f "./pom.xml" ] && mvn clean package || echo "pom.xml not found!"'
         }
