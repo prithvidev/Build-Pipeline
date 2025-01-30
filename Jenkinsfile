@@ -7,7 +7,7 @@ pipeline{
       }
       steps{
         sh '''
-        git clone https://github.com/Kapil987/test_maven.git
+        git clone https://github.com/iam-veeramalla/Jenkins-Zero-To-Hero.git
         sh '''
       }
     }
@@ -18,11 +18,7 @@ pipeline{
       steps{
         sh 'mvn --version'
         sh 'date'
-        dir('test_maven'){
-          sh '''
-          cd demo/demo
-          mvn clean install
-          sh '''
+        sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn clean package'
         }
       }
     }
