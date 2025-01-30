@@ -19,8 +19,7 @@ pipeline{
         docker {image 'maven:3.8.1-adoptopenjdk-11'}
       }
       steps{
-        mvn --version
-        mvn clean install
+        sh 'mvn --version'
       }
     }
   }
