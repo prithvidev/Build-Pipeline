@@ -3,13 +3,11 @@ pipeline{
   stages{
     stage('Checout the code'){
       agent {
-        docker { image 'alpine/git' } 
+        docker { image 'kapil0123/git' } 
       }
       steps{
         sh '''
-        git -version
         git clone https://github.com/Kapil987/test_maven.git
-        ls -lrt
         sh '''
       }
     }
