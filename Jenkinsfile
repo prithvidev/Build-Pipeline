@@ -20,14 +20,8 @@ pipeline{
         sh 'date'
        
         dir('Jenkins-Zero-To-Hero'){
-        sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app/'
-        if (fileExists('pom.xml')) {
-          echo "pom.xml found! Running Maven build..."
-          sh 'mvn clean package'
-          }
-        else {
-          echo "pom.xml not found. Skipping build."
-          }
+          sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app/'
+          sh '[ -f "pom.xml" ] && mvn clean package || echo "pom.xml not found!"'
         }
       }
   }
