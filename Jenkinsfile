@@ -15,7 +15,7 @@ pipeline{
     }
     stage('Maven'){
       agent{
-        docker { image 'maven:3.8.5-openjd
+        docker { image 'maven:3.8.5-openjdk-11' }
       }
       steps{
         sh 'mvn --version'
