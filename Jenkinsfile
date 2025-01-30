@@ -18,7 +18,7 @@ pipeline{
       steps{
         sh 'mvn --version'
         sh 'date'
-        sh 'chmod -R 755 /var/lib/jenkins/workspace/'
+        sh 'sudo chmod -R 755 /var/lib/jenkins/workspace/'
         sh 'cd Jenkins-Zero-To-Hero/java-maven-sonar-argocd-helm-k8s/'
         dir('spring-boot-app'){
           sh 'ls -lrt'
