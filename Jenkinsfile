@@ -18,10 +18,11 @@ pipeline{
       steps{
         sh 'mvn --version'
         sh 'date'
-        sh 'cd Jenkins-Zero-To-Hero/java-maven-sonar-argocd-helm-k8s/'
-        dir('spring-boot-app'){
+        dir('Jenkins-Zero-To-Hero'){
           sh 'ls -lrt'
-          sh 'mvn clean package"'
+          sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app'
+          sh 'ls -lrt'
+          sh 'mvn clean package'
         }
       }
   }
