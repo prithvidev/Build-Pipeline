@@ -35,9 +35,10 @@ pipeline{
         sh 'date'
         dir('demo'){
           sh 'ls -lrt'
-          sh '[ -f "pom.xml" ] && mvn clean package || echo "pom.xml not found!"'
+          //sh '[ -f "pom.xml" ] && mvn clean package || echo "pom.xml not found!"'
         }
         sh '''
+                
                 mvn -f demo/pom.xml verify package sonar:sonar \
                 -Dsonar.host.url=https://sonarcloud.io/ \
                 -Dsonar.organization=prithvidev \
