@@ -32,7 +32,7 @@ pipeline{
               docker { image 'sonarsource/sonar-scanner-cli' }
             }
             steps {
-                dir('Jenkins-Zero-To-Hero/java-maven-sonar-argocd-helm-k8s/spring-boot-app/target') {
+                dir('Jenkins-Zero-To-Hero/java-maven-sonar-argocd-helm-k8s/spring-boot-app/') {
                     sh '''
                     sonar-scanner \
                         -Dsonar.projectKey=your-project \
