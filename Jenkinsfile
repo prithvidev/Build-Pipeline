@@ -36,22 +36,29 @@ pipeline{
           sh 'ls -lrt'
           sh '[ -f "pom.xml" ] && mvn clean package || echo "pom.xml not found!"'
         }
-      }
-    }
-    
-    stage('SonarQube Analysis') {
-            agent {
-              docker { image 'sonarsource/sonar-scanner-cli' }
-            }
-            steps {
-                sh '''
+        sh '''
                 mvn -f Jenkins-Zero-To-Hero/java-maven-sonar-argocd-helm-k8s/spring-boot-app/pom.xml verify package sonar:sonar \
                 -Dsonar.host.url=https://sonarcloud.io/ \
                 -Dsonar.organization=prithvidev \
                 -Dsonar.projectKey=prithvidev_prithvi-dev \
                 -Dsonar.login=$SONAR_TOKEN
                 '''
-                }
-            }
+      }
+    }
+    
+    // stage('SonarQube Analysis') {
+    //         agent {
+    //           docker { image 'sonarsource/sonar-scanner-cli' }
+    //         }
+    //         steps {
+    //             sh '''
+    //             mvn -f Jenkins-Zero-To-Hero/java-maven-sonar-argocd-helm-k8s/spring-boot-app/pom.xml verify package sonar:sonar \
+    //             -Dsonar.host.url=https://sonarcloud.io/ \
+    //             -Dsonar.organization=prithvidev \
+    //             -Dsonar.projectKey=prithvidev_prithvi-dev \
+    //             -Dsonar.login=$SONAR_TOKEN
+    //             '''
+    //             }
+    //         }
     }
 }
