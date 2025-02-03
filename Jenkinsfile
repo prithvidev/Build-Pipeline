@@ -1,5 +1,8 @@
 pipeline{
   agent none
+  environment{
+    SONAR_TOKEN = credentials('SONAR_TOKEN')
+  }
   stages{
     
     stage('Checout the code'){
@@ -32,14 +35,13 @@ pipeline{
               docker { image 'sonarsource/sonar-scanner-cli' }
             }
             steps {
-                dir('Jenkins-Zero-To-Hero/java-maven-sonar-argocd-helm-k8s/spring-boot-app/') {
-                    sh '''
-                    sonar-scanner \
-                        -Dsonar.projectKey=your-project \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=${SONARQUBE_URL} \
-                        -Dsonar.login=${SONARQUBE_TOKEN}
-                    '''
+                sh '''
+                mvn -f Jenkins-Zero-To-Hero/java-maven-sonar-argocd-helm-k8s/spring-boot-app/pom.xml verify package sonar:sonar \
+                -Dsonar.host.url=https://sonarcloud.io/ \
+                -Dsonar.organization=prithvidev \
+                -Dsonar.projectKey=prithvidev_prithvi-dev \
+                -Dsonar.login=$SONAR_TOKEN
+                '''
                 }
             }
       }
