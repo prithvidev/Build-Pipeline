@@ -8,6 +8,7 @@ pipeline{
   stages{
     
     stage('Clean Workspace') {
+        agent any
             steps {
                 deleteDir()  // Deletes all files in the workspace
             }
