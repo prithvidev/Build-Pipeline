@@ -1,12 +1,18 @@
 pipeline{
   agent none
-  
+
   environment{
     SONAR_TOKEN = credentials('SONAR_TOKEN')
   }
 
   stages{
     
+    stage('Clean Workspace') {
+            steps {
+                deleteDir()  // Deletes all files in the workspace
+            }
+        }
+
     stage('Checout the code'){
       agent {
         docker { image 'kapil0123/git' } 
