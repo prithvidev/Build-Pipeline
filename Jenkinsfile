@@ -33,12 +33,12 @@ pipeline{
         sh 'mvn --version'
         sh 'java --version'
         sh 'date'
-        dir('demo/demo'){
+        dir('test_maven'){
           sh 'ls -lrt'
           sh '[ -f "pom.xml" ] && mvn clean package || echo "pom.xml not found!"'
         }
         sh '''
-                mvn -f demo/demo/pom.xml verify package sonar:sonar \
+                mvn -f test_maven/demo/demo/pom.xml verify package sonar:sonar \
                 -Dsonar.host.url=https://sonarcloud.io/ \
                 -Dsonar.organization=prithvidev \
                 -Dsonar.projectKey=prithvidev_prithvi-dev \
