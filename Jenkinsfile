@@ -1,8 +1,10 @@
 pipeline{
   agent none
+  
   environment{
     SONAR_TOKEN = credentials('SONAR_TOKEN')
   }
+
   stages{
     
     stage('Checout the code'){
@@ -44,6 +46,5 @@ pipeline{
                 '''
                 }
             }
-      }
-}
+    }
 }
