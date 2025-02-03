@@ -20,24 +20,25 @@ pipeline{
       }
       steps{
         sh '''
-        git clone https://github.com/iam-veeramalla/Jenkins-Zero-To-Hero.git
+        git clone https://github.com/Kapil987/test_maven.git
         sh '''
       }
     }
     
     stage('Maven'){
       agent{
-        docker { image 'maven:3.8.5-openjdk-17' }
+        docker { image 'maven:3.8.5-openjdk-21' }
       }
       steps{
         sh 'mvn --version'
+        sh 'java --version'
         sh 'date'
-        dir('Jenkins-Zero-To-Hero/java-maven-sonar-argocd-helm-k8s/spring-boot-app'){
+        dir('demo/demo'){
           sh 'ls -lrt'
           sh '[ -f "pom.xml" ] && mvn clean package || echo "pom.xml not found!"'
         }
         sh '''
-                mvn -f Jenkins-Zero-To-Hero/java-maven-sonar-argocd-helm-k8s/spring-boot-app/pom.xml verify package sonar:sonar \
+                mvn -f demo/demo/pom.xml verify package sonar:sonar \
                 -Dsonar.host.url=https://sonarcloud.io/ \
                 -Dsonar.organization=prithvidev \
                 -Dsonar.projectKey=prithvidev_prithvi-dev \
