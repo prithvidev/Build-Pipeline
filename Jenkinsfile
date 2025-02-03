@@ -27,7 +27,7 @@ pipeline{
     
     stage('Maven'){
       agent{
-        docker { image 'maven:3.8.7-openjdk-18-slim' }
+        docker { image 'prithvidev/custom-maven-jdk21:v2.0' }
       }
       steps{
         sh 'mvn --version'
