@@ -20,7 +20,7 @@ pipeline{
       }
       steps{
         sh '''
-        git clone https://github.com/Kapil987/test_maven.git
+        git clone https://github.com/prithvidev/demo.git
         sh '''
       }
     }
@@ -33,12 +33,12 @@ pipeline{
         sh 'mvn --version'
         sh 'java --version'
         sh 'date'
-        dir('test_maven'){
+        dir('demo'){
           sh 'ls -lrt'
           sh '[ -f "pom.xml" ] && mvn clean package || echo "pom.xml not found!"'
         }
         sh '''
-                mvn -f test_maven/demo/demo/pom.xml verify package sonar:sonar \
+                mvn -f demo/pom.xml verify package sonar:sonar \
                 -Dsonar.host.url=https://sonarcloud.io/ \
                 -Dsonar.organization=prithvidev \
                 -Dsonar.projectKey=prithvidev_prithvi-dev \
