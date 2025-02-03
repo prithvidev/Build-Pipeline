@@ -33,6 +33,7 @@ pipeline{
         sh 'mvn --version'
         sh 'java --version'
         sh 'date'
+        sh 'mkdir -p /var/lib/jenkins/.m2 && chown -R 111:113 /var/lib/jenkins/.m2'
         dir('demo'){
           sh 'ls -lrt'
           //sh '[ -f "pom.xml" ] && mvn clean package || echo "pom.xml not found!"'
