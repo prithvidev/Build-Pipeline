@@ -28,7 +28,7 @@ pipeline{
     stage('Maven'){
       agent{
         docker { image 'prithvidev/custom-maven-jdk21:v3.0'
-                args '-v /tmp/.m2:/root/.m2'}
+                args '--user root -v /tmp/.m2:/root/.m2'}
       }
       steps{
         sh 'mvn --version'
