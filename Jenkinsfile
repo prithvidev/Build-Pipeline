@@ -60,20 +60,33 @@ pipeline{
 
   post {
     always {
-            script {
-                def sonarUrl = "https://sonarcloud.io/project/overview?id=prithvidev_prithvi-dev"
-                emailext subject: "Pipeline Status : ${currentBuild.result}",
-                         body: """<p>BUILD Status : ${currentBuild.result}</p>
-                                  <p>Build Number : ${currentBuild.number}</p>
-                                  <h3>SonarQube Analysis Successful</h3>
-                                  <p>Project: <b>DEMO</b></p>
-                                  <p><a href="${sonarUrl}">View Report</a></p>
-                                  <p>Check the <a href="${env.BUILD_URL}"> Console Output</a>.</p>""",
-                         to: 'prithvidevkanojia1@gmail.com',
-                         from: 'jenkins@example.com'
-                         replyTo: 'jenkins@example.com'
-                         mimeType: 'text/html'
-            }
+        script {
+            def sonarUrl = "https://sonarcloud.io/project/overview?id=prithvidev_prithvi-dev"
+            def consoleUrl = "${env.BUILD_URL}"
+
+            emailext subject: "Pipeline Status: ${currentBuild.result}",
+                     body: """\
+                        <html>
+                        <body style="font-family:Arial, sans-serif;">
+                            <h2 style="color:#2E86C1;">Jenkins Pipeline Status: <span style="color:${currentBuild.result == 'SUCCESS' ? '#28A745' : '#DC3545'}">${currentBuild.result}</span></h2>
+                            <p><strong>Build Number:</strong> ${currentBuild.number}</p>
+                            <hr>
+                            <h3 style="color:#17A2B8;">SonarQube Analysis Successful ✅</h3>
+                            <p><strong>Project:</strong> <b>DEMO</b></p>
+                            <p><strong>SonarQube Report:</strong> <a href="${sonarUrl}" style="color:#007BFF; text-decoration:none;">View Report</a></p>
+                            <p><strong>Jenkins Console Output:</strong> <a href="${consoleUrl}" style="color:#007BFF; text-decoration:none;">View Logs</a></p>
+                            <hr>
+                            <p style="color:#555;">Best Regards,<br><strong>Jenkins Automation</strong></p>
+                        </body>
+                        </html>
+                        """,
+                     to: 'prithvidevkanojia1@gmail.com',
+                     from: 'jenkins@example.com',
+                     replyTo: 'jenkins@example.com',
+                     mimeType: 'text/html'
         }
+    }
+  }
+
   }
 }
