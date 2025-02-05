@@ -63,7 +63,8 @@ pipeline{
         script {
             def sonarUrl = "https://sonarcloud.io/project/overview?id=prithvidev_prithvi-dev"
             def consoleUrl = "${env.BUILD_URL}"
-
+            // Get the user who triggered the job
+            def user = currentBuild.rawBuild.getCause(hudson.model.Cause$UserIdCause)?.getUserName() ?: "Automated Trigger"
             emailext subject: "Pipeline Status: ${currentBuild.result}",
                      body: """\
                         <html>
@@ -76,6 +77,7 @@ pipeline{
                             <p><strong>SonarQube Report:</strong> <a href="${sonarUrl}" style="color:#007BFF; text-decoration:none;">View Report</a></p>
                             <p><strong>Jenkins Console Output:</strong> <a href="${consoleUrl}" style="color:#007BFF; text-decoration:none;">View Logs</a></p>
                             <hr>
+                            <p><strong>Triggered By:</strong> ${user}</p>
                             <p style="color:#555;">Best Regards,<br><strong>Jenkins Automation</strong></p>
                         </body>
                         </html>
