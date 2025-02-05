@@ -81,10 +81,8 @@ pipeline{
                          from: 'jenkins@example.com'
                          replyTo: 'jenkins@example.com'
                          mimeType: 'text/html'
+              sh 'echo "SonarQube Analysis Email Sent"'
             }
-        }
-        always {
-            echo "SonarQube Analysis Email Sent"
         }
   }
 }
