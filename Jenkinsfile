@@ -6,7 +6,6 @@ pipeline{
   }
 
   stages{
-    
     stage('Clean Workspace') {
         agent any
             steps {
@@ -68,7 +67,7 @@ pipeline{
   }
 
   post {
-        always {
+    always {
             script {
                 def sonarUrl = "https://sonarcloud.io/project/overview?id=prithvidev_prithvi-dev"
                 emailext subject: "Pipeline Status : ${cuurentBuild.result}",
@@ -87,5 +86,5 @@ pipeline{
         always {
             echo "SonarQube Analysis Email Sent"
         }
-    }
+  }
 }
