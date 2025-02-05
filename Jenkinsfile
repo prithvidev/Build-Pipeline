@@ -65,7 +65,9 @@ pipeline{
                 '''
                 }
             }
-    post {
+  }
+
+  post {
         always {
             script {
                 def sonarUrl = "https://sonarcloud.io/project/overview?id=prithvidev_prithvi-dev"
@@ -86,5 +88,4 @@ pipeline{
             echo "SonarQube Analysis Email Sent"
         }
     }
-  }
 }
