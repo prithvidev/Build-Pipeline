@@ -70,7 +70,7 @@ pipeline{
     always {
             script {
                 def sonarUrl = "https://sonarcloud.io/project/overview?id=prithvidev_prithvi-dev"
-                emailext subject: "Pipeline Status : ${cuurentBuild.result}",
+                emailext subject: "Pipeline Status : ${currentBuild.result}",
                          body: """<p>BUILD Status : ${currentBuild.result}</p>
                                   <p>Build Number : ${currentBuild.number}</p>
                                   <h3>SonarQube Analysis Successful</h3>
