@@ -9,7 +9,7 @@ pipeline{
     stage('Clean Workspace') {
         agent any
             steps {
-                deleteDir()  // Deletes all files in the workspace
+                sh 'sudo rm -rf /var/lib/jenkins/workspace/Buildpipeline*'   // Deletes all files in the workspace
             }
         }
 
