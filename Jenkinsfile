@@ -13,7 +13,7 @@ pipeline{
             }
         }
 
-    stage('ChecKout the code'){
+    stage('Checkout the code'){
       agent {
         docker { image 'kapil0123/git' } 
       }
@@ -24,7 +24,7 @@ pipeline{
       }
     }
     
-    stage('Maven'){
+    stage('Building code with Maven'){
       agent{
         docker { image 'prithvidev/custom-maven-jdk21:v3.0'
                 args '--user root -v /tmp/.m2:/root/.m2'}
@@ -34,28 +34,28 @@ pipeline{
         sh 'java --version'
         sh 'date'
       
-        // dir('demo'){
-        //   sh 'ls -lrt'
-        //   sh '[ -f "pom.xml" ] && mvn clean package || echo "pom.xml not found!"'
-        // }
+        dir('demo'){
+          sh 'ls -lrt'
+          sh '[ -f "pom.xml" ] && mvn clean package || echo "pom.xml not found!"'
+        }
       }
     }
     
-    // stage('SonarQube Analysis') {
-    //         agent {
-    //           docker { image 'prithvidev/custom-maven-jdk21:v3.0'
-    //             args '--user root -v /tmp/.m2:/root/.m2'}
-    //             }
-    //         steps {
-    //             sh '''
-    //             mvn -f demo/pom.xml verify package sonar:sonar \
-    //             -Dsonar.host.url=https://sonarcloud.io/ \
-    //             -Dsonar.organization=prithvidev \
-    //             -Dsonar.projectKey=prithvidev_prithvi-dev \
-    //             -Dsonar.login=$SONAR_TOKEN
-    //             '''
-    //             }
-    //         }
+    stage('SonarQube Analysis') {
+            agent {
+              docker { image 'prithvidev/custom-maven-jdk21:v3.0'
+                args '--user root -v /tmp/.m2:/root/.m2'}
+                }
+            steps {
+                sh '''
+                mvn -f demo/pom.xml verify package sonar:sonar \
+                -Dsonar.host.url=https://sonarcloud.io/ \
+                -Dsonar.organization=prithvidev \
+                -Dsonar.projectKey=prithvidev_prithvi-dev \
+                -Dsonar.login=$SONAR_TOKEN
+                '''
+                }
+            }
   }
 
   post {
