@@ -60,7 +60,10 @@ pipeline{
       agent any
       steps{
         dir('demo'){
+          //Copying the war file into working directory
             sh 'cp target/*.war .'
+
+          //Building Docker image for running tomcat container
             script{
                 def warname = sh(script: "ls *.war", returnStdout: true).trim()
                 echo "WAR File Name: ${warname}"
@@ -75,21 +78,23 @@ pipeline{
         steps{
             script{
                dir('demo') {
+                 //Stopping last running container for application
                  script{
                    def container = sh(script: "docker ps --format '{{.Names}}'", returnStdout: true).trim()
                    echo "Last Docker Container Name: ${container}"
                    sh "docker stop ${container}"
                  }
-                 
+                 //Starting new Container
                  sh "docker run -d --rm --name tomcat-${currentBuild.number} -p 8081:8080 demo"
                }
+              //Wait for 30 seconds before health check
                 sh '''
                 sleep 30
                 response=$(curl --connect-timeout 2 --max-time 2 -o /dev/null -s -w "%{http_code}" http://54.89.85.71:8081)
                 if [ "$response" -eq 200 ]; then
-                    echo "Status is 200 - Success"
+                    echo "✅ Application is up and running (HTTP 200)"
                 else
-                    echo "Failed with status: $response"
+                    echo "❌ Application failed with status: ${response}"
                 exit 1
                 fi
                 sh '''
