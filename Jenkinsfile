@@ -75,7 +75,7 @@ pipeline{
         steps{
             script{
                 sh "docker run --rm -it --name tomcat -p 8081:8080 demo"
-                
+                sh '''
                 response=$(curl --connect-timeout 2 --max-time 2 -o /dev/null -s -w "%{http_code}" http://54.89.85.71:8081)
                 if [ "$response" -eq 200 ]; then
                     echo "Status is 200 - Success"
@@ -83,6 +83,7 @@ pipeline{
                     echo "Failed with status: $response"
                 exit 1
                 fi
+                sh '''
             }
         }
     }
