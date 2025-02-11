@@ -75,6 +75,12 @@ pipeline{
         steps{
             script{
                dir('demo') {
+                 script{
+                   def container = sh(script: "docker ps --format "{{.Names}}", returnStdout: true).trim()
+                   echo "Last Docker Container Name: ${container}"
+                   sh "docker stop ${container}"
+                 }
+                 
                  sh "docker run -d --rm --name tomcat-${currentBuild.number} -p 8081:8080 demo"
                }
                 sh '''
