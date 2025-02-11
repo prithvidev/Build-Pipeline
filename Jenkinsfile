@@ -75,7 +75,7 @@ pipeline{
         steps{
             script{
                dir('demo') {
-                 sh "docker run --rm -it --name tomcat -p 8081:8080 demo < /dev/null"
+                 sh "docker run -d --rm --name tomcat -p 8081:8080 demo"
                }
                 sh '''
                 response=$(curl --connect-timeout 2 --max-time 2 -o /dev/null -s -w "%{http_code}" http://54.89.85.71:8081)
