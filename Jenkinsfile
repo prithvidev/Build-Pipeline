@@ -64,10 +64,27 @@ pipeline{
             script{
                 def warname = sh(script: "ls *.war", returnStdout: true).trim()
                 echo "WAR File Name: ${warname}"
-                //sh "docker build --build-arg warname=${warname} -t demo -f Dockerfile ."
+                sh "docker build --build-arg warname=${warname} -t demo -f Dockerfile ."
             }
         }
       }
+    }
+
+    stage('Running an instance of DEMO App'){
+        agent any
+        steps{
+            script{
+                sh "docker run --rm -it --name tomcat -p 8081:8080 demo"
+                
+                response=$(curl --connect-timeout 2 --max-time 2 -o /dev/null -s -w "%{http_code}" http://54.89.85.71:8081)
+                if [ "$response" -eq 200 ]; then
+                    echo "Status is 200 - Success"
+                else
+                    echo "Failed with status: $response"
+                exit 1
+                fi
+            }
+        }
     }
   }
 
