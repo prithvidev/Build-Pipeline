@@ -64,7 +64,7 @@ pipeline{
             script{
                 def warname = sh(script: "ls *.war", returnStdout: true).trim()
                 echo "WAR File Name: ${warname}"
-                sh "docker build --build-arg warname=${warname} -t demo -f dockerfile-tomcat ."
+                sh "docker build --build-arg warname=${warname} -t demo -f dockerfile.dockerfile ."
             }
         }
       }
