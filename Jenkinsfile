@@ -58,11 +58,13 @@ pipeline{
             }
     stage('Preparing docker image for tomcat'){
       agent any
-      dir('demo'){
+      steps{
+        dir('demo'){
         sh 'cp /var/lib/jenkins/workspace/Buildpipeline/demo/target/*.war .'
         def warname= sh 'ls *.war'
         print warname
         //docker build --build-arg warname=$warname -t demo -f dockerfile .
+        }
       }
     }
   }
