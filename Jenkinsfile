@@ -76,7 +76,7 @@ pipeline{
             script{
                dir('demo') {
                  script{
-                   def container = sh(script: "docker ps --format "{{.Names}}"", returnStdout: true).trim()
+                   def container = sh(script: "docker ps --format '{{.Names}}'", returnStdout: true).trim()
                    echo "Last Docker Container Name: ${container}"
                    sh "docker stop ${container}"
                  }
