@@ -60,10 +60,12 @@ pipeline{
       agent any
       steps{
         dir('demo'){
-        sh 'cp /var/lib/jenkins/workspace/Buildpipeline/demo/target/*.war .'
-        def warname= sh 'ls *.war'
-        print warname
-        //docker build --build-arg warname=$warname -t demo -f dockerfile .
+            sh 'cp target/*.war .'
+            script{
+                def warname = sh(script: "ls *.war", returnStdout: true).trim()
+                echo "WAR File Name: ${warname}"
+                //sh "docker build --build-arg warname=${warname} -t demo -f Dockerfile ."
+            }
         }
       }
     }
