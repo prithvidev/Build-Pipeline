@@ -80,12 +80,11 @@ pipeline{
                dir('demo') {
                  //Stopping last running container for application
                  script{
-                   def container = sh(script: "docker ps --format '{{.Names}}'", returnStdout: true).trim()
-                   echo "Last Docker Container Name: ${container}"
+                   def container = "tomcat"
                    sh "docker stop ${container}"
                  }
                  //Starting new Container
-                 sh "docker run -d --rm --name tomcat-${currentBuild.number} -p 8081:8080 demo"
+                 sh "docker run -d --rm --name ${container} -p 8081:8080 demo"
                }
               //Wait for 30 seconds before health check
                 sh '''
