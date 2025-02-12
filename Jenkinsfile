@@ -88,7 +88,7 @@ pipeline{
                  
                 //Wait for 30 seconds before health check
                 sh '''
-                pubip = $(curl ifconfig.me)
+                pubip=$(curl ifconfig.me)
                 echo $pubip
                 sleep 30
                 
