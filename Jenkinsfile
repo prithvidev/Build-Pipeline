@@ -80,7 +80,7 @@ pipeline{
                dir('demo') {
                  //Stopping last running container for application
                    def container = "tomcat"
-                   sh "docker stop ${container}"
+                   sh "docker stop ${container} || true"
                  //Starting new Container
                  sh "docker run -d --rm --name ${container} -p 8081:8080 demo"
                }
