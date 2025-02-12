@@ -79,10 +79,8 @@ pipeline{
             script{
                dir('demo') {
                  //Stopping last running container for application
-                 script{
                    def container = "tomcat"
                    sh "docker stop ${container}"
-                 }
                  //Starting new Container
                  sh "docker run -d --rm --name ${container} -p 8081:8080 demo"
                }
