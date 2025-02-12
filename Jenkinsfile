@@ -78,16 +78,21 @@ pipeline{
         steps{
             script{
                dir('demo') {
+                 
                  //Stopping last running container for application
                    def container = "tomcat"
                    sh "docker stop ${container} || true"
                  //Starting new Container
                  sh "docker run -d --rm --name ${container} -p 8081:8080 demo"
-               }
-              //Wait for 30 seconds before health check
+                 
+                 
+                //Wait for 30 seconds before health check
                 sh '''
+                pubip = $(curl ifconfig.me)
+                echo $pubip
                 sleep 30
-                response=$(curl --connect-timeout 2 --max-time 2 -o /dev/null -s -w "%{http_code}" http://54.89.85.71:8081)
+                
+                response=$(curl --connect-timeout 2 --max-time 2 -o /dev/null -s -w "%{http_code}" http://${pubip}:8081)
                 if [ "$response" -eq 200 ]; then
                     echo "✅ Application is up and running (HTTP 200)"
                 else
@@ -95,6 +100,7 @@ pipeline{
                 exit 1
                 fi
                 sh '''
+               }
             }
         }
     }
