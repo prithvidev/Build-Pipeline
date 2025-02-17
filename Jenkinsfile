@@ -67,7 +67,7 @@ pipeline{
             script{
                 def warname = sh(script: "ls *.war", returnStdout: true).trim()
                 echo "WAR File Name: ${warname}"
-                def imageName = "demo"
+                def imageName = "prithvidev/demo"
                 sh """
                 docker build --build-arg warname=${warname} -t $imageName:${currentBuild.number} -f dockerfile .
                 docker login -u $DOCKER_USER -p $DOCKER_PASS
