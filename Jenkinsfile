@@ -64,11 +64,17 @@ pipeline{
             sh 'cp target/*.war .'
 
           //Building Docker image for running tomcat container
+          withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
             script{
                 def warname = sh(script: "ls *.war", returnStdout: true).trim()
                 echo "WAR File Name: ${warname}"
-                sh "docker build --build-arg warname=${warname} -t demo -f dockerfile ."
+                sh '''
+                docker build --build-arg warname=${warname} -t demo -f dockerfile .
+                docker login -u $DOCKER_USER -p $DOCKER_PASS
+                docker push ${warname}
+                '''
             }
+        }
         }
       }
     }
