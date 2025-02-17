@@ -33,7 +33,6 @@ pipeline{
         sh 'mvn --version'
         sh 'java --version'
         sh 'date'
-      
         dir('demo'){
           sh 'ls -lrt'
           sh '[ -f "pom.xml" ] && mvn clean package || echo "pom.xml not found!"'
@@ -56,13 +55,13 @@ pipeline{
                 """
                 }
             }
+
     stage('Preparing docker image for tomcat'){
       agent any
       steps{
         dir('demo'){
           //Copying the war file into working directory
             sh 'cp target/*.war .'
-
           //Building Docker image for running tomcat container
           withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
             script{
@@ -74,7 +73,7 @@ pipeline{
                 docker push $DOCKER_USER/${warname}
                 """
             }
-        }
+          }
         }
       }
     }
@@ -84,25 +83,21 @@ pipeline{
         steps{
             script{
                dir('demo') {
-                 
                  //Stopping last running container for application
-                   def container = "tomcat"
-                   sh "docker stop ${container} || true"
-                 //Starting new Container
-                 sh "docker run -d --rm --name ${container} -p 8081:8080 demo"
-                 
-                 
+                def container = "tomcat"
+                sh "docker stop ${container} || true"
+                //Starting new Container
+                sh "docker run -d --rm --name ${container} -p 8081:8080 demo"
                 //Wait for 30 seconds before health check
                 sh """
-                pubip=$(curl ifconfig.me)
-                echo $pubip
+                pubip=\$(curl ifconfig.me)
+                echo \$pubip
                 sleep 30
-                
-                response=$(curl --connect-timeout 2 --max-time 2 -o /dev/null -s -w "%{http_code}" http://${pubip}:8081)
-                if [ "$response" -eq 200 ]; then
+                response=\$(curl --connect-timeout 2 --max-time 2 -o /dev/null -s -w "%{http_code}" http://\${pubip}:8081)
+                if [ \"\$response\" -eq 200 ]; then
                     echo "✅ Application is up and running (HTTP 200)"
                 else
-                    echo "❌ Application failed with status: ${response}"
+                    echo "❌ Application failed with status: \$response}"
                 exit 1
                 fi
                 """
