@@ -71,7 +71,7 @@ pipeline{
                 sh """
                 docker build --build-arg warname=${warname} -t $imageName:${currentBuild.number} -f dockerfile .
                 docker login -u $DOCKER_USER -p $DOCKER_PASS
-                docker push $DOCKER_USER/$imageName:${currentBuild.number}
+                docker push $imageName:${currentBuild.number}
                 """
             }
           }
