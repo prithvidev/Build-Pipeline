@@ -18,9 +18,9 @@ pipeline{
         docker { image 'kapil0123/git' } 
       }
       steps{
-        sh '''
+        sh """
         git clone https://github.com/prithvidev/demo.git
-        sh '''
+        sh """
       }
     }
     
@@ -47,13 +47,13 @@ pipeline{
                 args '--user root -v /tmp/.m2:/root/.m2'}
                 }
             steps {
-                sh '''
+                sh """
                 mvn -f demo/pom.xml verify package sonar:sonar \
                 -Dsonar.host.url=https://sonarcloud.io/ \
                 -Dsonar.organization=prithvidev \
                 -Dsonar.projectKey=prithvidev_prithvi-dev \
                 -Dsonar.login=$SONAR_TOKEN
-                '''
+                """
                 }
             }
     stage('Preparing docker image for tomcat'){
@@ -93,7 +93,7 @@ pipeline{
                  
                  
                 //Wait for 30 seconds before health check
-                sh '''
+                sh """
                 pubip=$(curl ifconfig.me)
                 echo $pubip
                 sleep 30
@@ -105,7 +105,7 @@ pipeline{
                     echo "❌ Application failed with status: ${response}"
                 exit 1
                 fi
-                sh '''
+                """
                }
             }
         }
