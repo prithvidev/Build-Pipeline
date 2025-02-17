@@ -68,11 +68,10 @@ pipeline{
             script{
                 def warname = sh(script: "ls *.war", returnStdout: true).trim()
                 echo "WAR File Name: ${warname}"
-                sh '''
-                docker build --build-arg warname=${warname} -t demo -f dockerfile .
-                docker login -u $DOCKER_USER -p $DOCKER_PASS
-                docker push ${warname}
-                '''
+                
+                sh "docker build --build-arg warname=${warname} -t demo -f dockerfile ."
+                sh "docker login -u $DOCKER_USER -p $DOCKER_PASS"
+                sh "docker push ${warname}"
             }
         }
         }
