@@ -27,22 +27,6 @@ pipeline{
       }
     }
     
-    stage('Building code with Maven'){
-      agent{
-        docker { image 'prithvidev/custom-maven-jdk21:v3.0'
-                args '--user root -v /tmp/.m2:/root/.m2'}
-      }
-      steps{
-        sh 'mvn --version'
-        sh 'java --version'
-        sh 'date'
-        dir('demo'){
-          sh 'ls -lrt'
-          sh '[ -f "pom.xml" ] && mvn clean package || echo "pom.xml not found!"'
-        }
-      }
-    }
-    
     stage('SonarQube Analysis') {
             agent {
               docker { image 'prithvidev/custom-maven-jdk21:v3.0'
@@ -58,6 +42,22 @@ pipeline{
                 """
                 }
             }
+
+    stage('Building code with Maven'){
+      agent{
+        docker { image 'prithvidev/custom-maven-jdk21:v3.0'
+                args '--user root -v /tmp/.m2:/root/.m2'}
+      }
+      steps{
+        sh 'mvn --version'
+        sh 'java --version'
+        sh 'date'
+        dir('demo'){
+          sh 'ls -lrt'
+          sh '[ -f "pom.xml" ] && mvn clean package || echo "pom.xml not found!"'
+        }
+      }
+    }
 
     stage('Upload to Nexus') {
       agent{
