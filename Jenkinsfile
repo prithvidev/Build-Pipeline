@@ -3,6 +3,9 @@ pipeline{
 
   environment{
     SONAR_TOKEN = credentials('SONAR_TOKEN')
+    NEXUS_URL = "http://54.197.10.105:8081/"
+    NEXUS_REPO = "maven-releases"
+    NEXUS_CREDENTIALS_ID = "NEXUS_CREDENTIALS_ID"
   }
 
   stages{
@@ -55,6 +58,22 @@ pipeline{
                 """
                 }
             }
+    stage('Upload to Nexus') {
+      agent{
+        docker { image 'prithvidev/custom-maven-jdk21:v3.0'
+                args '--user root -v /tmp/.m2:/root/.m2'}
+        } 
+            steps {
+              dir('demo'){
+                withCredentials([usernamePassword(credentialsId: "${NEXUS_CREDENTIALS_ID}", usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
+                    sh """
+                    envsubst < settings.xml.template > settings.xml
+                    mvn deploy --settings settings.xml
+                    """
+                }
+            }
+            }
+    }
 
     stage('Preparing docker image for tomcat'){
       agent any
@@ -106,6 +125,7 @@ pipeline{
             }
         }
     }
+
   }
 
   post {
