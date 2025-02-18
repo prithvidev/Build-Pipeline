@@ -67,8 +67,8 @@ pipeline{
             steps {
               dir('demo'){
                 withCredentials([usernamePassword(credentialsId: "${NEXUS_CREDENTIALS_ID}", usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
+                    sh "apt-get update && apt-get install -y gettext"
                     sh """
-                    apt-get update && apt-get install -y gettext
                     envsubst < settings.xml.template > settings.xml
                     mvn deploy --settings settings.xml
                     """
