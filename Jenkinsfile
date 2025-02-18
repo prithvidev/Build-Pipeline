@@ -70,7 +70,7 @@ pipeline{
                     sh "apt-get update && apt-get install -y gettext"
                     sh """
                     envsubst < settings.xml.template > settings.xml
-                    mvn deploy --settings settings.xml
+                    mvn deploy -f pom_nexus.xml --settings settings.xml
                     """
                 }
             }
