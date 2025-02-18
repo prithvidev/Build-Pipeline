@@ -58,6 +58,7 @@ pipeline{
                 """
                 }
             }
+
     stage('Upload to Nexus') {
       agent{
         docker { image 'prithvidev/custom-maven-jdk21:v3.0'
@@ -67,6 +68,7 @@ pipeline{
               dir('demo'){
                 withCredentials([usernamePassword(credentialsId: "${NEXUS_CREDENTIALS_ID}", usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
                     sh """
+                    apt-get update && apt-get install -y gettext
                     envsubst < settings.xml.template > settings.xml
                     mvn deploy --settings settings.xml
                     """
