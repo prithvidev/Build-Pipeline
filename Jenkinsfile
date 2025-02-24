@@ -129,6 +129,7 @@ pipeline{
     }
 
     stage("Cleaning Image"){
+      agent any
       steps{
         sh """
         echo "Before removing unused images"
