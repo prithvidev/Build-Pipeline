@@ -22,7 +22,7 @@ pipeline{
       }
       steps{
         sh """
-        git clone -b ${params.BRANCH_NAME} https://github.com/prithvidev/demo.git
+        git clone -b ${params.Branch} https://github.com/prithvidev/demo.git
         sh """
       }
     }
