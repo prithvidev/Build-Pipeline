@@ -128,6 +128,18 @@ pipeline{
         }
     }
 
+    stage("Cleaning Image"){
+      steps{
+        sh """
+        echo "Before removing unused images"
+        docker images
+        docker image prune -a -f
+        echo "After removing unused images"
+        docker images
+        """
+      }
+    }
+
   }
 
   post {
