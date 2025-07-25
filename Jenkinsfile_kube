@@ -73,7 +73,7 @@ pipeline{
                 docker ps -q --filter "name=${container}" | grep -q . && docker stop ${container} || echo "Container not running"
                 sh """
                 //Starting new Container
-                sh "docker run -d --rm --name ${container} -p 8081:8080 newdemo"
+                sh "docker run -d --rm --name ${container} -p 8081:8080 newdemo:${currentBuild.number}"
                 //Wait for 30 seconds before health check
                 sh """
                 pubip=\$(curl ifconfig.me)
