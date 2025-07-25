@@ -68,9 +68,9 @@ pipeline{
                dir('demo') {
                  //Stopping last running container for application
                 def container = "tomcat"
-                if [ "$container" == "tomcat" ]; then
-                    sh "docker stop ${container}"
-                    sh "echo "Stopped""
+                sh """
+                docker ps -q --filter "name=${container}" | grep -q . && docker stop ${container} || echo "Container not running"
+                sh """
                 //Starting new Container
                 sh "docker run -d --rm --name ${container} -p 8081:8080 demo"
                 //Wait for 30 seconds before health check
