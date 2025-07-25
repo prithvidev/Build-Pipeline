@@ -64,6 +64,7 @@ pipeline{
     stage('Running an instance of DEMO App'){
         agent any
         steps{
+            withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
             script{
                dir('demo') {
                  //Stopping last running container for application
@@ -88,6 +89,7 @@ pipeline{
                 """
                }
             }
+        }
         }
     }
 
